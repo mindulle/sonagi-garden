@@ -1,0 +1,41 @@
+---
+import NoteLayout from '@/layouts/Note.astro';
+
+// 모든 마크다운 파일을 가져와서 경로 생성
+export async function getStaticPaths() {
+  const allNotes = await Astro.glob('../../content/**/*.md');
+  
+  return allNotes.map(note => {
+    // content/dev/getting-started.md -> dev/getting-started
+    const slug = note.file
+      .replace(/^.*\/content\//, '')
+      .replace(/\.md$/, '');
+    
+    return {
+      params: { slug },
+      props: { note }
+    };
+  });
+}
+
+const { note } = Astro.props;
+const { Content, frontmatter } = note;
+
+const { 
+  title = 'Untitled', 
+  date, 
+  tags = [], 
+  category = '',
+  description = '' 
+} = frontmatter;
+---
+
+<NoteLayout 
+  title={title}
+  description={description}
+  date={date}
+  tags={tags}
+  category={category}
+>
+  <Content />
+</NoteLayout>

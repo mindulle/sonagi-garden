@@ -1,0 +1,308 @@
+---
+import BaseLayout from './Base.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+  date?: string;
+  tags?: string[];
+  category?: string;
+}
+
+const { 
+  title, 
+  description,
+  date,
+  tags = [],
+  category = ''
+} = Astro.props;
+
+// 날짜 포맷팅
+const formatDate = (dateString: string) => {
+  if (!dateString) return '';
+  const date = new Date(dateString);
+  return date.toLocaleDateString('ko-KR', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  });
+};
+---
+
+<BaseLayout title={title} description={description}>
+  <article class="note">
+    <div class="note-container">
+      <!-- 노트 헤더 -->
+      <header class="note-header">
+        {category && (
+          <div class="note-category">
+            <a href={`/${category}`} class="category-badge">
+              {category}
+            </a>
+          </div>
+        )}
+        
+        <h1 class="note-title">{title}</h1>
+        
+        <div class="note-meta">
+          {date && (
+            <time class="note-date" datetime={date}>
+              📅 {formatDate(date)}
+            </time>
+          )}
+          
+          {tags.length > 0 && (
+            <div class="note-tags">
+              {tags.map(tag => (
+                <span class="tag">#{tag}</span>
+              ))}
+            </div>
+          )}
+        </div>
+      </header>
+      
+      <!-- 노트 본문 -->
+      <div class="note-content">
+        <slot />
+      </div>
+      
+      <!-- 노트 푸터 (추후: 백링크, 관련 노트 등) -->
+      <footer class="note-footer">
+        <div class="note-actions">
+          <a href="/" class="back-link">← 홈으로 돌아가기</a>
+        </div>
+      </footer>
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .note {
+    max-width: var(--content-width);
+    margin: 0 auto;
+    padding: 0 var(--sonagi-spacing-lg);
+  }
+  
+  .note-container {
+    background: white;
+    border-radius: var(--sonagi-radius-xl);
+    padding: var(--sonagi-spacing-2xl);
+    box-shadow: var(--sonagi-shadow-sm);
+  }
+  
+  /* Header */
+  .note-header {
+    margin-bottom: var(--sonagi-spacing-2xl);
+    padding-bottom: var(--sonagi-spacing-xl);
+    border-bottom: 2px solid var(--sonagi-color-border);
+  }
+  
+  .note-category {
+    margin-bottom: var(--sonagi-spacing-md);
+  }
+  
+  .category-badge {
+    display: inline-block;
+    padding: var(--sonagi-spacing-xs) var(--sonagi-spacing-md);
+    background: var(--sonagi-color-primary);
+    color: white;
+    border-radius: var(--sonagi-radius-md);
+    font-size: var(--sonagi-font-size-sm);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: all var(--sonagi-transition-fast);
+  }
+  
+  .category-badge:hover {
+    background: var(--sonagi-color-primary-hover);
+    transform: translateY(-2px);
+  }
+  
+  .note-title {
+    font-size: var(--sonagi-font-size-3xl);
+    line-height: var(--sonagi-line-height-heading);
+    color: var(--sonagi-color-text-primary);
+    margin-bottom: var(--sonagi-spacing-lg);
+  }
+  
+  .note-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--sonagi-spacing-lg);
+    align-items: center;
+    color: var(--sonagi-color-text-secondary);
+    font-size: var(--sonagi-font-size-sm);
+  }
+  
+  .note-date {
+    display: flex;
+    align-items: center;
+    gap: var(--sonagi-spacing-xs);
+  }
+  
+  .note-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--sonagi-spacing-sm);
+  }
+  
+  .tag {
+    padding: var(--sonagi-spacing-xs) var(--sonagi-spacing-sm);
+    background: var(--sonagi-color-surface);
+    border-radius: var(--sonagi-radius-sm);
+    font-size: var(--sonagi-font-size-xs);
+    color: var(--sonagi-color-text-secondary);
+    transition: all var(--sonagi-transition-fast);
+  }
+  
+  .tag:hover {
+    background: var(--sonagi-color-primary);
+    color: white;
+    cursor: pointer;
+  }
+  
+  /* Content */
+  .note-content {
+    line-height: 1.8;
+    color: var(--sonagi-color-text-primary);
+  }
+  
+  /* 마크다운 콘텐츠 스타일링 */
+  .note-content :global(h1),
+  .note-content :global(h2),
+  .note-content :global(h3),
+  .note-content :global(h4),
+  .note-content :global(h5),
+  .note-content :global(h6) {
+    margin-top: var(--sonagi-spacing-2xl);
+    margin-bottom: var(--sonagi-spacing-md);
+    font-weight: 600;
+    line-height: var(--sonagi-line-height-heading);
+  }
+  
+  .note-content :global(h2) {
+    padding-bottom: var(--sonagi-spacing-sm);
+    border-bottom: 1px solid var(--sonagi-color-border);
+  }
+  
+  .note-content :global(p) {
+    margin-bottom: var(--sonagi-spacing-lg);
+  }
+  
+  .note-content :global(ul),
+  .note-content :global(ol) {
+    margin-bottom: var(--sonagi-spacing-lg);
+    padding-left: var(--sonagi-spacing-xl);
+  }
+  
+  .note-content :global(li) {
+    margin-bottom: var(--sonagi-spacing-sm);
+  }
+  
+  .note-content :global(blockquote) {
+    margin: var(--sonagi-spacing-lg) 0;
+    padding: var(--sonagi-spacing-md) var(--sonagi-spacing-lg);
+    border-left: 4px solid var(--sonagi-color-primary);
+    background: var(--sonagi-color-surface);
+    border-radius: 0 var(--sonagi-radius-md) var(--sonagi-radius-md) 0;
+  }
+  
+  .note-content :global(a) {
+    color: var(--sonagi-color-primary);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 2px;
+    transition: all var(--sonagi-transition-fast);
+  }
+  
+  .note-content :global(a:hover) {
+    color: var(--sonagi-color-primary-hover);
+    text-decoration-thickness: 2px;
+  }
+  
+  .note-content :global(pre) {
+    margin: var(--sonagi-spacing-lg) 0;
+    padding: var(--sonagi-spacing-lg);
+    background: #1e1e1e;
+    border-radius: var(--sonagi-radius-md);
+    overflow-x: auto;
+  }
+  
+  .note-content :global(code) {
+    font-family: var(--sonagi-font-family-mono);
+    font-size: 0.9em;
+  }
+  
+  .note-content :global(:not(pre) > code) {
+    background: var(--sonagi-color-surface);
+    padding: 0.2em 0.4em;
+    border-radius: var(--sonagi-radius-sm);
+    color: var(--sonagi-color-primary);
+  }
+  
+  .note-content :global(hr) {
+    margin: var(--sonagi-spacing-2xl) 0;
+    border: none;
+    border-top: 2px solid var(--sonagi-color-border);
+  }
+  
+  .note-content :global(img) {
+    max-width: 100%;
+    height: auto;
+    border-radius: var(--sonagi-radius-md);
+    margin: var(--sonagi-spacing-lg) 0;
+  }
+  
+  .note-content :global(table) {
+    width: 100%;
+    margin: var(--sonagi-spacing-lg) 0;
+    border-collapse: collapse;
+  }
+  
+  .note-content :global(th),
+  .note-content :global(td) {
+    padding: var(--sonagi-spacing-sm) var(--sonagi-spacing-md);
+    border: 1px solid var(--sonagi-color-border);
+    text-align: left;
+  }
+  
+  .note-content :global(th) {
+    background: var(--sonagi-color-surface);
+    font-weight: 600;
+  }
+  
+  /* Footer */
+  .note-footer {
+    margin-top: var(--sonagi-spacing-2xl);
+    padding-top: var(--sonagi-spacing-xl);
+    border-top: 1px solid var(--sonagi-color-border);
+  }
+  
+  .back-link {
+    color: var(--sonagi-color-text-secondary);
+    font-size: var(--sonagi-font-size-sm);
+    transition: color var(--sonagi-transition-fast);
+  }
+  
+  .back-link:hover {
+    color: var(--sonagi-color-primary);
+  }
+  
+  /* 반응형 */
+  @media (max-width: 768px) {
+    .note-container {
+      padding: var(--sonagi-spacing-lg);
+    }
+    
+    .note-title {
+      font-size: var(--sonagi-font-size-2xl);
+    }
+    
+    .note-meta {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: var(--sonagi-spacing-sm);
+    }
+  }
+</style>

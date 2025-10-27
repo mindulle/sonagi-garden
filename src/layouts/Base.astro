@@ -1,0 +1,141 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { 
+  title, 
+  description = 'Sonagi Garden - 청량한 디지털 정원' 
+} = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content={description}>
+  <meta name="generator" content={Astro.generator}>
+  <title>{title} | Sonagi Garden</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <nav class="main-nav">
+        <a href="/" class="logo">
+          <span class="logo-icon">🌱</span>
+          <span class="logo-text">Sonagi Garden</span>
+        </a>
+        
+        <div class="nav-links">
+          <a href="/dev" class="nav-link">Dev</a>
+          <a href="/design" class="nav-link">Design</a>
+          <a href="/life" class="nav-link">Life</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+  
+  <main class="site-main">
+    <slot />
+  </main>
+  
+  <footer class="site-footer">
+    <div class="container">
+      <p>© 2025 Sonagi Garden. 청량하게 가꾸는 디지털 정원.</p>
+    </div>
+  </footer>
+</body>
+</html>
+
+<style>
+  .site-header {
+    border-bottom: 1px solid var(--sonagi-color-border);
+    background: var(--sonagi-color-background);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.95);
+  }
+  
+  .main-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--sonagi-spacing-md) 0;
+  }
+  
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: var(--sonagi-spacing-sm);
+    font-size: var(--sonagi-font-size-lg);
+    font-weight: 600;
+    color: var(--sonagi-color-text-primary);
+    text-decoration: none;
+    transition: transform var(--sonagi-transition-fast);
+  }
+  
+  .logo:hover {
+    transform: translateY(-2px);
+  }
+  
+  .logo-icon {
+    font-size: 1.5em;
+  }
+  
+  .nav-links {
+    display: flex;
+    gap: var(--sonagi-spacing-lg);
+  }
+  
+  .nav-link {
+    font-size: var(--sonagi-font-size-base);
+    font-weight: 500;
+    color: var(--sonagi-color-text-secondary);
+    padding: var(--sonagi-spacing-sm) var(--sonagi-spacing-md);
+    border-radius: var(--sonagi-radius-md);
+    transition: all var(--sonagi-transition-fast);
+  }
+  
+  .nav-link:hover {
+    color: var(--sonagi-color-primary);
+    background: var(--sonagi-color-surface);
+  }
+  
+  .site-main {
+    min-height: calc(100vh - 200px);
+    padding: var(--sonagi-spacing-2xl) 0;
+  }
+  
+  .site-footer {
+    border-top: 1px solid var(--sonagi-color-border);
+    padding: var(--sonagi-spacing-xl) 0;
+    text-align: center;
+    color: var(--sonagi-color-text-secondary);
+    font-size: var(--sonagi-font-size-sm);
+  }
+  
+  @media (max-width: 768px) {
+    .logo-text {
+      display: none;
+    }
+    
+    .nav-links {
+      gap: var(--sonagi-spacing-md);
+    }
+    
+    .nav-link {
+      padding: var(--sonagi-spacing-xs) var(--sonagi-spacing-sm);
+    }
+  }
+</style>

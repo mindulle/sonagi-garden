@@ -1,0 +1,277 @@
+---
+import BaseLayout from '@/layouts/Base.astro';
+---
+
+<BaseLayout title="홈">
+  <div class="hero">
+    <div class="hero-content">
+      <div class="hero-icon">🌱</div>
+      <h1 class="hero-title">Sonagi Garden</h1>
+      <p class="hero-subtitle">
+        청량한 디지털 정원에 오신 것을 환영합니다
+      </p>
+      <p class="hero-description">
+        비 온 뒤의 맑고 깨끗한 느낌처럼,<br>
+        정보를 가꾸고 연결하는 공간입니다.
+      </p>
+      
+      <div class="hero-actions">
+        <a href="/dev" class="btn btn-primary">
+          노트 탐색하기
+        </a>
+        <a href="#about" class="btn btn-secondary">
+          더 알아보기
+        </a>
+      </div>
+    </div>
+  </div>
+  
+  <section class="features" id="about">
+    <div class="container">
+      <h2 class="section-title">디지털 정원이란?</h2>
+      
+      <div class="feature-grid">
+        <div class="feature-card">
+          <div class="feature-icon">🌿</div>
+          <h3>유기적 성장</h3>
+          <p>노트는 시간이 지나며 자라고 연결됩니다. 완벽하지 않아도 괜찮아요.</p>
+        </div>
+        
+        <div class="feature-card">
+          <div class="feature-icon">🔗</div>
+          <h3>자유로운 연결</h3>
+          <p>아이디어와 개념을 자유롭게 연결하여 새로운 통찰을 만들어냅니다.</p>
+        </div>
+        
+        <div class="feature-card">
+          <div class="feature-icon">💧</div>
+          <h3>청량한 경험</h3>
+          <p>Sonagi 디자인 시스템으로 깔끔하고 시원한 독서 경험을 제공합니다.</p>
+        </div>
+        
+        <div class="feature-card">
+          <div class="feature-icon">📝</div>
+          <h3>마크다운 기반</h3>
+          <p>Obsidian으로 작성한 노트를 그대로 웹에 배포할 수 있습니다.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <section class="domains">
+    <div class="container">
+      <h2 class="section-title">탐색하기</h2>
+      
+      <div class="domain-grid">
+        <a href="/dev" class="domain-card">
+          <div class="domain-icon">💻</div>
+          <h3>Dev</h3>
+          <p>개발, 프로그래밍, 기술 관련 노트</p>
+        </a>
+        
+        <a href="/design" class="domain-card">
+          <div class="domain-icon">🎨</div>
+          <h3>Design</h3>
+          <p>디자인, UX/UI, 크리에이티브 관련 노트</p>
+        </a>
+        
+        <a href="/life" class="domain-card">
+          <div class="domain-icon">✨</div>
+          <h3>Life</h3>
+          <p>일상, 생각, 에세이</p>
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  /* Hero Section */
+  .hero {
+    padding: var(--sonagi-spacing-2xl) 0;
+    text-align: center;
+  }
+  
+  .hero-content {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 0 var(--sonagi-spacing-lg);
+  }
+  
+  .hero-icon {
+    font-size: 4rem;
+    margin-bottom: var(--sonagi-spacing-lg);
+    animation: float 3s ease-in-out infinite;
+  }
+  
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+  
+  .hero-title {
+    font-size: var(--sonagi-font-size-3xl);
+    margin-bottom: var(--sonagi-spacing-md);
+    color: var(--sonagi-color-primary);
+  }
+  
+  .hero-subtitle {
+    font-size: var(--sonagi-font-size-xl);
+    color: var(--sonagi-color-text-secondary);
+    margin-bottom: var(--sonagi-spacing-lg);
+  }
+  
+  .hero-description {
+    font-size: var(--sonagi-font-size-base);
+    color: var(--sonagi-color-text-secondary);
+    line-height: 1.8;
+    margin-bottom: var(--sonagi-spacing-2xl);
+  }
+  
+  .hero-actions {
+    display: flex;
+    gap: var(--sonagi-spacing-md);
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  
+  /* Buttons */
+  .btn {
+    display: inline-block;
+    padding: var(--sonagi-spacing-md) var(--sonagi-spacing-xl);
+    border-radius: var(--sonagi-radius-md);
+    font-weight: 500;
+    transition: all var(--sonagi-transition-base);
+    cursor: pointer;
+  }
+  
+  .btn-primary {
+    background: var(--sonagi-color-primary);
+    color: white;
+    box-shadow: var(--sonagi-shadow-md);
+  }
+  
+  .btn-primary:hover {
+    background: var(--sonagi-color-primary-hover);
+    transform: translateY(-2px);
+    box-shadow: var(--sonagi-shadow-lg);
+  }
+  
+  .btn-secondary {
+    background: var(--sonagi-color-surface);
+    color: var(--sonagi-color-text-primary);
+    border: 1px solid var(--sonagi-color-border);
+  }
+  
+  .btn-secondary:hover {
+    background: var(--sonagi-color-background);
+    border-color: var(--sonagi-color-primary);
+    color: var(--sonagi-color-primary);
+  }
+  
+  /* Sections */
+  .features, .domains {
+    padding: var(--sonagi-spacing-2xl) 0;
+  }
+  
+  .section-title {
+    text-align: center;
+    font-size: var(--sonagi-font-size-2xl);
+    margin-bottom: var(--sonagi-spacing-2xl);
+  }
+  
+  /* Feature Grid */
+  .feature-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: var(--sonagi-spacing-xl);
+    max-width: var(--max-width);
+    margin: 0 auto;
+  }
+  
+  .feature-card {
+    padding: var(--sonagi-spacing-xl);
+    background: var(--sonagi-color-surface);
+    border-radius: var(--sonagi-radius-lg);
+    text-align: center;
+    transition: all var(--sonagi-transition-base);
+  }
+  
+  .feature-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--sonagi-shadow-lg);
+  }
+  
+  .feature-icon {
+    font-size: 2.5rem;
+    margin-bottom: var(--sonagi-spacing-md);
+  }
+  
+  .feature-card h3 {
+    margin-bottom: var(--sonagi-spacing-sm);
+    color: var(--sonagi-color-text-primary);
+  }
+  
+  .feature-card p {
+    color: var(--sonagi-color-text-secondary);
+    font-size: var(--sonagi-font-size-sm);
+    margin: 0;
+  }
+  
+  /* Domain Grid */
+  .domain-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--sonagi-spacing-xl);
+    max-width: var(--max-width);
+    margin: 0 auto;
+  }
+  
+  .domain-card {
+    padding: var(--sonagi-spacing-2xl);
+    background: white;
+    border: 2px solid var(--sonagi-color-border);
+    border-radius: var(--sonagi-radius-xl);
+    text-align: center;
+    transition: all var(--sonagi-transition-base);
+    text-decoration: none;
+    display: block;
+  }
+  
+  .domain-card:hover {
+    border-color: var(--sonagi-color-primary);
+    transform: translateY(-4px);
+    box-shadow: var(--sonagi-shadow-lg);
+  }
+  
+  .domain-icon {
+    font-size: 3rem;
+    margin-bottom: var(--sonagi-spacing-lg);
+  }
+  
+  .domain-card h3 {
+    font-size: var(--sonagi-font-size-xl);
+    margin-bottom: var(--sonagi-spacing-sm);
+    color: var(--sonagi-color-primary);
+  }
+  
+  .domain-card p {
+    color: var(--sonagi-color-text-secondary);
+    margin: 0;
+  }
+  
+  @media (max-width: 768px) {
+    .hero-title {
+      font-size: var(--sonagi-font-size-2xl);
+    }
+    
+    .hero-subtitle {
+      font-size: var(--sonagi-font-size-lg);
+    }
+    
+    .feature-grid,
+    .domain-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

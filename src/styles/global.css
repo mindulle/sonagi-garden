@@ -1,0 +1,148 @@
+/* Sonagi 디자인 토큰 임포트 */
+/* 실제 사용 시: @import '@sonagi/tokens/dist/tokens.css'; */
+
+/* 임시 토큰 정의 - Sonagi 연결 전까지 사용 */
+:root {
+  /* Colors - Sonagi 청량한 블루-그레이 팔레트 */
+  --sonagi-color-primary: #4A90E2;
+  --sonagi-color-primary-hover: #357ABD;
+  --sonagi-color-secondary: #7B8794;
+  --sonagi-color-background: #FFFFFF;
+  --sonagi-color-surface: #F8F9FA;
+  --sonagi-color-text-primary: #212529;
+  --sonagi-color-text-secondary: #6C757D;
+  --sonagi-color-border: #DEE2E6;
+  
+  /* Spacing */
+  --sonagi-spacing-xs: 0.25rem;
+  --sonagi-spacing-sm: 0.5rem;
+  --sonagi-spacing-md: 1rem;
+  --sonagi-spacing-lg: 1.5rem;
+  --sonagi-spacing-xl: 2rem;
+  --sonagi-spacing-2xl: 3rem;
+  
+  /* Typography */
+  --sonagi-font-family-base: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans KR', sans-serif;
+  --sonagi-font-family-mono: 'Fira Code', 'Consolas', monospace;
+  --sonagi-font-size-xs: 0.75rem;
+  --sonagi-font-size-sm: 0.875rem;
+  --sonagi-font-size-base: 1rem;
+  --sonagi-font-size-lg: 1.125rem;
+  --sonagi-font-size-xl: 1.25rem;
+  --sonagi-font-size-2xl: 1.5rem;
+  --sonagi-font-size-3xl: 2rem;
+  --sonagi-line-height-base: 1.6;
+  --sonagi-line-height-heading: 1.3;
+  
+  /* Border Radius */
+  --sonagi-radius-sm: 0.25rem;
+  --sonagi-radius-md: 0.5rem;
+  --sonagi-radius-lg: 0.75rem;
+  --sonagi-radius-xl: 1rem;
+  
+  /* Shadows */
+  --sonagi-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --sonagi-shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
+  --sonagi-shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+  
+  /* Layout */
+  --max-width: 1200px;
+  --content-width: 800px;
+  --sidebar-width: 280px;
+  
+  /* Transitions */
+  --sonagi-transition-fast: 150ms ease-in-out;
+  --sonagi-transition-base: 250ms ease-in-out;
+  --sonagi-transition-slow: 350ms ease-in-out;
+}
+
+/* 다크 모드 (추후 구현) */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --sonagi-color-background: #1A1A1A;
+    --sonagi-color-surface: #2D2D2D;
+    --sonagi-color-text-primary: #E9ECEF;
+    --sonagi-color-text-secondary: #ADB5BD;
+    --sonagi-color-border: #495057;
+  }
+}
+
+/* Reset & Base Styles */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--sonagi-font-family-base);
+  font-size: var(--sonagi-font-size-base);
+  line-height: var(--sonagi-line-height-base);
+  color: var(--sonagi-color-text-primary);
+  background: var(--sonagi-color-background);
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+  line-height: var(--sonagi-line-height-heading);
+  font-weight: 600;
+  margin-bottom: var(--sonagi-spacing-md);
+}
+
+h1 { font-size: var(--sonagi-font-size-3xl); }
+h2 { font-size: var(--sonagi-font-size-2xl); }
+h3 { font-size: var(--sonagi-font-size-xl); }
+h4 { font-size: var(--sonagi-font-size-lg); }
+
+p {
+  margin-bottom: var(--sonagi-spacing-md);
+}
+
+a {
+  color: var(--sonagi-color-primary);
+  text-decoration: none;
+  transition: color var(--sonagi-transition-fast);
+}
+
+a:hover {
+  color: var(--sonagi-color-primary-hover);
+}
+
+code {
+  font-family: var(--sonagi-font-family-mono);
+  font-size: 0.9em;
+  background: var(--sonagi-color-surface);
+  padding: 0.2em 0.4em;
+  border-radius: var(--sonagi-radius-sm);
+}
+
+pre {
+  background: var(--sonagi-color-surface);
+  padding: var(--sonagi-spacing-md);
+  border-radius: var(--sonagi-radius-md);
+  overflow-x: auto;
+  margin-bottom: var(--sonagi-spacing-lg);
+}
+
+pre code {
+  background: none;
+  padding: 0;
+}
+
+/* Utilities */
+.container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 var(--sonagi-spacing-lg);
+}
+
+.content {
+  max-width: var(--content-width);
+  margin: 0 auto;
+}
