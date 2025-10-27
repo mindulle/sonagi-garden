@@ -2,7 +2,7 @@
 import BaseLayout from '@/layouts/Base.astro';
 
 // content/dev 폴더의 모든 마크다운 파일 가져오기
-const devNotes = await Astro.glob('../../content/dev/*.md');
+const devNotes = await Astro.glob('../../content/dev/**/*.md');
 
 // 날짜순으로 정렬 (최신순)
 const sortedNotes = devNotes.sort((a, b) => {
@@ -40,6 +40,7 @@ const formatDate = (dateString: string) => {
       <p class="domain-description">
         개발, 프로그래밍, 기술 관련 노트들을 모았습니다.
       </p>
+      <p class="note-count">{sortedNotes.length}개의 노트</p>
     </div>
     
     <div class="notes-list">
@@ -185,6 +186,13 @@ const formatDate = (dateString: string) => {
     display: flex;
     flex-wrap: wrap;
     gap: var(--sonagi-spacing-xs);
+  }
+
+  .note-count {
+    margin-top: var(--sonagi-spacing-sm);
+    font-size: var(--sonagi-font-size-sm);
+    color: var(--sonagi-color-text-secondary);
+    font-weight: 600;
   }
   
   .tag {
