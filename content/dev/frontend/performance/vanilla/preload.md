@@ -3,7 +3,7 @@ title: "Preload"
 date: 2025-10-27
 tags: [javascript, performance, optimization, component, async]
 category: dev
-description: "[Preload](https://developer.mozilla.org/en-US/docs/Web/HTML/Preloading_content) (`<link rel="preload">`) is a [browser optimization](https://web.dev/u..."
+description: 'Preload is a browser optimization that allows critical resources (that may be discovered late) to be requested earlier'
 ---
 
 Performance Pattern
@@ -25,7 +25,7 @@ ___
 
 ## Preload in single-page apps
 
-While **prefetching** is a great way to cache resources that may be requested some time soon, we can **preload** resources that need to be used instantly. Maybe it’s a certain font that is used on the initial render, or certain images that the user sees right away.
+While **prefetching** is a great way to cache resources that may be requested some time soon, we can **preload** resources that need to be used instantly. Maybe it's a certain font that is used on the initial render, or certain images that the user sees right away.
 
 Say our `EmojiPicker` component should be visible instantly on the initial render. Although it should not be included in the main bundle, it _should_ get loaded in parallel. Just like _prefetch_, we can add a magic comment in order to let Webpack know that this module should be preloaded.
 
@@ -40,7 +40,7 @@ const EmojiPicker = import(/* webpackPreload: true */ "./EmojiPicker");
      sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
    ></iframe>
 
-> Webpack 4.6.0+ allows preloading of resources by adding `/* webpackPreload: true */` to the import. In order to make preloading work in older versions of webpack, you’ll need to add the [`preload-webpack-plugin`](https://github.com/GoogleChromeLabs/preload-webpack-plugin) to your webpack config.
+> Webpack 4.6.0+ allows preloading of resources by adding `/* webpackPreload: true */` to the import. In order to make preloading work in older versions of webpack, you'll need to add the [`preload-webpack-plugin`](https://github.com/GoogleChromeLabs/preload-webpack-plugin) to your webpack config.
 
 <video width="100%" src="https://res.cloudinary.com/ddxwdqwkr/video/upload/f_auto/v1609244249/patterns.dev/preloadwebperf_gnlpx8.mp4" autoplay="" controls="" playsinline="" loop="" poster="https://res.cloudinary.com/ddxwdqwkr/video/upload/f_auto/v1609244249/patterns.dev/preloadwebperf_gnlpx8.jpg"><source src="https://res.cloudinary.com/ddxwdqwkr/video/upload/f_auto/v1609244249/patterns.dev/preloadwebperf_gnlpx8.mp4" type="video/mp4"></video>
 
@@ -63,11 +63,11 @@ The actual output is visible as a `link` tag with `rel="preload"` in the `head` 
 <link rel="prefetch" href="vendors~emoji-picker.bundle.js" as="script" />
 ```
 
-The preloaded `EmojiPicker` could be loaded in parallel with the initial bundle. Unlike `prefetch`, where the browser still had a say in whether it think it’s got a good enough internet connection and bandwidth to actually prefetch the resource, a **preloaded** resource will get preloaded no matter what.
+The preloaded `EmojiPicker` could be loaded in parallel with the initial bundle. Unlike `prefetch`, where the browser still had a say in whether it think it's got a good enough internet connection and bandwidth to actually prefetch the resource, a **preloaded** resource will get preloaded no matter what.
 
 <video width="100%" src="https://res.cloudinary.com/ddxwdqwkr/video/upload/f_auto/v1609056521/patterns.dev/preload.mp4" autoplay="" controls="" playsinline="" loop="" poster="https://res.cloudinary.com/ddxwdqwkr/video/upload/f_auto/v1609056521/patterns.dev/preload.jpg"><source src="https://res.cloudinary.com/ddxwdqwkr/video/upload/f_auto/v1609056521/patterns.dev/preload.mp4" type="video/mp4"></video>
 
-Instead of having to wait until the `EmojiPicker` gets loaded after the initial render, the resource will be available to us instantly! As we’re loading assets with smarter ordering, the initial loading time may increase significantly depending on your users device and internet connection. Only preload the resources that have to be visible ~1 second after the initial render.
+Instead of having to wait until the `EmojiPicker` gets loaded after the initial render, the resource will be available to us instantly! As we're loading assets with smarter ordering, the initial loading time may increase significantly depending on your users device and internet connection. Only preload the resources that have to be visible ~1 second after the initial render.
 
 ___
 
@@ -84,7 +84,7 @@ Should you wish for browsers to download a script as high-priority, but not bloc
 
 ## Preload in Chrome 95+
 
-Thanks to some [fixes](https://twitter.com/patmeenan/status/1436374668450177026) to preload’s [queue-jumping](https://docs.google.com/document/d/1ZEi-XXhpajrnq8oqs5SiW-CXR3jMc20jWIzN5QRy1QA/edit?usp=sharing) behavior in Chrome 95+, the feature is slightly safer to use more broadly. Pat Meenan of Chrome’s new recommendations for preload suggest:
+Thanks to some [fixes](https://twitter.com/patmeenan/status/1436374668450177026) to preload's [queue-jumping](https://docs.google.com/document/d/1ZEi-XXhpajrnq8oqs5SiW-CXR3jMc20jWIzN5QRy1QA/edit?usp=sharing) behavior in Chrome 95+, the feature is slightly safer to use more broadly. Pat Meenan of Chrome's new recommendations for preload suggest:
 
 - Putting it in HTTP headers will jump ahead of everything else
 - Generally, preloads will load in the order the parser gets to them for anything >= Medium so be careful putting preloads at the beginning of the HTML.

@@ -3,7 +3,7 @@ title: "Prefetch"
 date: 2025-10-27
 tags: [javascript, performance, optimization, state, component, api]
 category: dev
-description: "Prefetch (`<link rel="prefetch">`) is a browser optimization which"
+description: 'Prefetch is a browser optimization which allows us to fetch resources that may be needed for subsequent routes or pages before they are needed'
 ---
 
 # Prefetch
