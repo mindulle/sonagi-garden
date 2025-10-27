@@ -3,9 +3,9 @@ import NoteLayout from '@/layouts/Note.astro';
 
 // 모든 마크다운 파일을 가져와서 경로 생성
 export async function getStaticPaths() {
-  const allNotes = await Astro.glob('../../content/**/*.md');
+  const allNotes: MarkdownInstance<Record<string, any>>[] = await Astro.glob('../../content/**/*.md');
   
-  return allNotes.map(note => {
+  return allNotes.map((note: MarkdownInstance<Record<string, any>>) => {
     // content/dev/getting-started.md -> dev/getting-started
     const slug = note.file
       .replace(/^.*\/content\//, '')
