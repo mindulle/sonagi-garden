@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '@/layouts/Base.astro';
+import { Button, Card } from '@/components/ui';
 ---
 
 <BaseLayout title="홈">
@@ -16,11 +17,11 @@ import BaseLayout from '@/layouts/Base.astro';
       </p>
       
       <div class="hero-actions">
-        <a href="/dev" class="btn btn-primary">
-          노트 탐색하기
+        <a href="/notes/dev">
+          <Button variant="primary" size="lg">노트 탐색하기</Button>
         </a>
-        <a href="#about" class="btn btn-secondary">
-          더 알아보기
+        <a href="#about">
+          <Button variant="secondary" size="lg">더 알아보기</Button>
         </a>
       </div>
     </div>
@@ -31,29 +32,29 @@ import BaseLayout from '@/layouts/Base.astro';
       <h2 class="section-title">디지털 정원이란?</h2>
       
       <div class="feature-grid">
-        <div class="feature-card">
+        <Card className="feature-card">
           <div class="feature-icon">🌿</div>
           <h3>유기적 성장</h3>
           <p>노트는 시간이 지나며 자라고 연결됩니다. 완벽하지 않아도 괜찮아요.</p>
-        </div>
+        </Card>
         
-        <div class="feature-card">
+        <Card className="feature-card">
           <div class="feature-icon">🔗</div>
           <h3>자유로운 연결</h3>
           <p>아이디어와 개념을 자유롭게 연결하여 새로운 통찰을 만들어냅니다.</p>
-        </div>
+        </Card>
         
-        <div class="feature-card">
+        <Card className="feature-card">
           <div class="feature-icon">💧</div>
           <h3>청량한 경험</h3>
           <p>Sonagi 디자인 시스템으로 깔끔하고 시원한 독서 경험을 제공합니다.</p>
-        </div>
+        </Card>
         
-        <div class="feature-card">
+        <Card className="feature-card">
           <div class="feature-icon">📝</div>
           <h3>마크다운 기반</h3>
           <p>Obsidian으로 작성한 노트를 그대로 웹에 배포할 수 있습니다.</p>
-        </div>
+        </Card>
       </div>
     </div>
   </section>
@@ -63,22 +64,28 @@ import BaseLayout from '@/layouts/Base.astro';
       <h2 class="section-title">탐색하기</h2>
       
       <div class="domain-grid">
-        <a href="/dev" class="domain-card">
-          <div class="domain-icon">💻</div>
-          <h3>Dev</h3>
-          <p>개발, 프로그래밍, 기술 관련 노트</p>
+        <a href="/notes/dev" class="domain-link">
+          <Card variant="bordered" className="domain-card">
+            <div class="domain-icon">💻</div>
+            <h3>Dev</h3>
+            <p>개발, 프로그래밍, 기술 관련 노트</p>
+          </Card>
         </a>
         
-        <a href="/design" class="domain-card">
-          <div class="domain-icon">🎨</div>
-          <h3>Design</h3>
-          <p>디자인, UX/UI, 크리에이티브 관련 노트</p>
+        <a href="/notes/design" class="domain-link">
+          <Card variant="bordered" className="domain-card">
+            <div class="domain-icon">🎨</div>
+            <h3>Design</h3>
+            <p>디자인, UX/UI, 크리에이티브 관련 노트</p>
+          </Card>
         </a>
         
-        <a href="/life" class="domain-card">
-          <div class="domain-icon">✨</div>
-          <h3>Life</h3>
-          <p>일상, 생각, 에세이</p>
+        <a href="/notes/life" class="domain-link">
+          <Card variant="bordered" className="domain-card">
+            <div class="domain-icon">✨</div>
+            <h3>Life</h3>
+            <p>일상, 생각, 에세이</p>
+          </Card>
         </a>
       </div>
     </div>
@@ -135,40 +142,6 @@ import BaseLayout from '@/layouts/Base.astro';
     flex-wrap: wrap;
   }
   
-  /* Buttons */
-  .btn {
-    display: inline-block;
-    padding: var(--sonagi-spacing-md) var(--sonagi-spacing-xl);
-    border-radius: var(--sonagi-radius-md);
-    font-weight: 500;
-    transition: all var(--sonagi-transition-base);
-    cursor: pointer;
-  }
-  
-  .btn-primary {
-    background: var(--sonagi-color-primary);
-    color: white;
-    box-shadow: var(--sonagi-shadow-md);
-  }
-  
-  .btn-primary:hover {
-    background: var(--sonagi-color-primary-hover);
-    transform: translateY(-2px);
-    box-shadow: var(--sonagi-shadow-lg);
-  }
-  
-  .btn-secondary {
-    background: var(--sonagi-color-surface);
-    color: var(--sonagi-color-text-primary);
-    border: 1px solid var(--sonagi-color-border);
-  }
-  
-  .btn-secondary:hover {
-    background: var(--sonagi-color-background);
-    border-color: var(--sonagi-color-primary);
-    color: var(--sonagi-color-primary);
-  }
-  
   /* Sections */
   .features, .domains {
     padding: var(--sonagi-spacing-2xl) 0;
@@ -190,16 +163,8 @@ import BaseLayout from '@/layouts/Base.astro';
   }
   
   .feature-card {
-    padding: var(--sonagi-spacing-xl);
-    background: var(--sonagi-color-surface);
-    border-radius: var(--sonagi-radius-lg);
     text-align: center;
-    transition: all var(--sonagi-transition-base);
-  }
-  
-  .feature-card:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--sonagi-shadow-lg);
+    height: 100%;
   }
   
   .feature-icon {
@@ -227,21 +192,20 @@ import BaseLayout from '@/layouts/Base.astro';
     margin: 0 auto;
   }
   
-  .domain-card {
-    padding: var(--sonagi-spacing-2xl);
-    background: white;
-    border: 2px solid var(--sonagi-color-border);
-    border-radius: var(--sonagi-radius-xl);
-    text-align: center;
-    transition: all var(--sonagi-transition-base);
+  .domain-link {
     text-decoration: none;
     display: block;
   }
   
+  .domain-card {
+    text-align: center;
+    height: 100%;
+    transition: all var(--sonagi-transition-base);
+  }
+  
   .domain-card:hover {
-    border-color: var(--sonagi-color-primary);
+    border-color: var(--sonagi-color-primary) !important;
     transform: translateY(-4px);
-    box-shadow: var(--sonagi-shadow-lg);
   }
   
   .domain-icon {

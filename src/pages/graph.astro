@@ -1,0 +1,51 @@
+---
+import BaseLayout from '../layouts/Base.astro';
+import GraphView from '../components/GraphView';
+
+const title = "Knowledge Graph";
+const description = "Explore the connections between notes in the Sonagi Garden.";
+---
+
+<BaseLayout title={title} description={description}>
+  <div class="container graph-page">
+    <header class="page-header">
+      <h1>{title}</h1>
+      <p>{description}</p>
+    </header>
+
+    <div class="graph-wrapper">
+      <GraphView client:only="react" />
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .graph-page {
+    padding-top: var(--sonagi-spacing-2xl);
+    padding-bottom: var(--sonagi-spacing-2xl);
+  }
+
+  .page-header {
+    text-align: center;
+    margin-bottom: var(--sonagi-spacing-xl);
+  }
+
+  .page-header h1 {
+    font-size: var(--sonagi-font-size-3xl);
+    color: var(--sonagi-color-text-primary);
+    margin-bottom: var(--sonagi-spacing-sm);
+  }
+
+  .page-header p {
+    color: var(--sonagi-color-text-secondary);
+  }
+
+  .graph-wrapper {
+    background: var(--sonagi-color-surface);
+    border: 1px solid var(--sonagi-color-border);
+    border-radius: var(--sonagi-radius-lg);
+    overflow: hidden;
+    height: calc(100vh - 250px);
+    min-height: 500px;
+  }
+</style>

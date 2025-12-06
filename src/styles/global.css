@@ -1,74 +1,13 @@
 /* Sonagi 디자인 토큰 임포트 */
-/* 실제 사용 시: @import '@sonagi/tokens/dist/tokens.css'; */
+@import './tokens.css';
 
 /* 임시 토큰 정의 - Sonagi 연결 전까지 사용 */
-:root {
-  /* Colors - Sonagi 청량한 블루-그레이 팔레트 */
-  --sonagi-color-primary: #4A90E2;
-  --sonagi-color-primary-hover: #357ABD;
-  --sonagi-color-secondary: #7B8794;
-  --sonagi-color-background: #FFFFFF;
-  --sonagi-color-surface: #F8F9FA;
-  --sonagi-color-text-primary: #212529;
-  --sonagi-color-text-secondary: #6C757D;
-  --sonagi-color-border: #DEE2E6;
-  
-  /* Spacing */
-  --sonagi-spacing-xs: 0.25rem;
-  --sonagi-spacing-sm: 0.5rem;
-  --sonagi-spacing-md: 1rem;
-  --sonagi-spacing-lg: 1.5rem;
-  --sonagi-spacing-xl: 2rem;
-  --sonagi-spacing-2xl: 3rem;
-  
-  /* Typography */
-  --sonagi-font-family-base: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans KR', sans-serif;
-  --sonagi-font-family-mono: 'Fira Code', 'Consolas', monospace;
-  --sonagi-font-size-xs: 0.75rem;
-  --sonagi-font-size-sm: 0.875rem;
-  --sonagi-font-size-base: 1rem;
-  --sonagi-font-size-lg: 1.125rem;
-  --sonagi-font-size-xl: 1.25rem;
-  --sonagi-font-size-2xl: 1.5rem;
-  --sonagi-font-size-3xl: 2rem;
-  --sonagi-line-height-base: 1.6;
-  --sonagi-line-height-heading: 1.3;
-  
-  /* Border Radius */
-  --sonagi-radius-sm: 0.25rem;
-  --sonagi-radius-md: 0.5rem;
-  --sonagi-radius-lg: 0.75rem;
-  --sonagi-radius-xl: 1rem;
-  
-  /* Shadows */
-  --sonagi-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
-  --sonagi-shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
-  --sonagi-shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
-  
-  /* Layout */
-  --max-width: 1200px;
-  --content-width: 800px;
-  --sidebar-width: 280px;
-  
-  /* Transitions */
-  --sonagi-transition-fast: 150ms ease-in-out;
-  --sonagi-transition-base: 250ms ease-in-out;
-  --sonagi-transition-slow: 350ms ease-in-out;
-}
-
-/* 다크 모드 (추후 구현) */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --sonagi-color-background: #1A1A1A;
-    --sonagi-color-surface: #2D2D2D;
-    --sonagi-color-text-primary: #E9ECEF;
-    --sonagi-color-text-secondary: #ADB5BD;
-    --sonagi-color-border: #495057;
-  }
-}
+/* tokens.css로 이동됨 */
 
 /* Reset & Base Styles */
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -89,16 +28,32 @@ body {
 }
 
 /* Typography */
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   line-height: var(--sonagi-line-height-heading);
   font-weight: 600;
   margin-bottom: var(--sonagi-spacing-md);
 }
 
-h1 { font-size: var(--sonagi-font-size-3xl); }
-h2 { font-size: var(--sonagi-font-size-2xl); }
-h3 { font-size: var(--sonagi-font-size-xl); }
-h4 { font-size: var(--sonagi-font-size-lg); }
+h1 {
+  font-size: var(--sonagi-font-size-3xl);
+}
+
+h2 {
+  font-size: var(--sonagi-font-size-2xl);
+}
+
+h3 {
+  font-size: var(--sonagi-font-size-xl);
+}
+
+h4 {
+  font-size: var(--sonagi-font-size-lg);
+}
 
 p {
   margin-bottom: var(--sonagi-spacing-md);
@@ -145,4 +100,239 @@ pre code {
 .content {
   max-width: var(--content-width);
   margin: 0 auto;
+}
+
+/* ===== Wikilinks ===== */
+.wikilink {
+  color: var(--sonagi-color-primary);
+  text-decoration: none;
+  font-weight: 500;
+  padding: 0 var(--sonagi-spacing-xs);
+  border-radius: var(--sonagi-radius-sm);
+  transition: all var(--sonagi-transition-fast);
+}
+
+.wikilink:hover {
+  background: var(--sonagi-color-surface);
+  color: var(--sonagi-color-primary-hover);
+}
+
+.wikilink.broken {
+  color: var(--sonagi-color-text-secondary);
+  text-decoration: underline;
+  text-decoration-style: dashed;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.wikilink.broken:hover {
+  background: transparent;
+  color: var(--sonagi-color-text-secondary);
+}
+
+/* ===== Search Modal ===== */
+.search-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  z-index: 1000;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 15vh;
+}
+
+.search-modal {
+  width: 100%;
+  max-width: 600px;
+  background: var(--sonagi-color-background);
+  border-radius: var(--sonagi-radius-lg);
+  box-shadow: var(--sonagi-shadow-lg);
+  border: 1px solid var(--sonagi-color-border);
+  overflow: hidden;
+  animation: modalSlideIn 0.2s ease-out;
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.search-header {
+  display: flex;
+  align-items: center;
+  padding: var(--sonagi-spacing-md);
+  border-bottom: 1px solid var(--sonagi-color-border);
+  gap: var(--sonagi-spacing-md);
+}
+
+.search-icon {
+  font-size: 1.2rem;
+  opacity: 0.5;
+}
+
+.search-input {
+  flex: 1;
+  border: none;
+  background: none;
+  font-size: var(--sonagi-font-size-lg);
+  color: var(--sonagi-color-text-primary);
+  outline: none;
+}
+
+.close-button {
+  padding: 4px 8px;
+  border-radius: var(--sonagi-radius-sm);
+  border: 1px solid var(--sonagi-color-border);
+  background: var(--sonagi-color-surface);
+  color: var(--sonagi-color-text-secondary);
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.search-results {
+  max-height: 400px;
+  overflow-y: auto;
+  padding: var(--sonagi-spacing-sm);
+}
+
+.search-message {
+  padding: var(--sonagi-spacing-lg);
+  text-align: center;
+  color: var(--sonagi-color-text-secondary);
+}
+
+.search-result-item {
+  display: block;
+  padding: var(--sonagi-spacing-md);
+  border-radius: var(--sonagi-radius-md);
+  text-decoration: none;
+  color: inherit;
+  margin-bottom: var(--sonagi-spacing-xs);
+  transition: background var(--sonagi-transition-fast);
+}
+
+.search-result-item.selected,
+.search-result-item:hover {
+  background: var(--sonagi-color-surface);
+}
+
+.result-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--sonagi-spacing-xs);
+}
+
+.result-title {
+  font-weight: 600;
+  color: var(--sonagi-color-primary);
+}
+
+.result-category {
+  font-size: 0.8rem;
+  padding: 2px 6px;
+  background: var(--sonagi-color-surface);
+  border: 1px solid var(--sonagi-color-border);
+  border-radius: var(--sonagi-radius-sm);
+  color: var(--sonagi-color-text-secondary);
+}
+
+.result-excerpt {
+  font-size: 0.9rem;
+  color: var(--sonagi-color-text-secondary);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.result-excerpt mark {
+  background: rgba(255, 255, 0, 0.3);
+  color: inherit;
+  padding: 0 2px;
+  border-radius: 2px;
+}
+
+.search-empty-state {
+  padding: var(--sonagi-spacing-2xl);
+  text-align: center;
+  color: var(--sonagi-color-text-secondary);
+}
+
+.search-shortcuts {
+  margin-top: var(--sonagi-spacing-md);
+  font-size: 0.9rem;
+}
+
+kbd {
+  background: var(--sonagi-color-surface);
+  border: 1px solid var(--sonagi-color-border);
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-family: var(--sonagi-font-family-mono);
+  font-size: 0.8em;
+}
+
+/* ===== Backlinks Section ===== */
+.backlinks-section {
+  margin-top: var(--sonagi-spacing-3xl);
+  padding-top: var(--sonagi-spacing-xl);
+  border-top: 1px solid var(--sonagi-color-border);
+}
+
+.backlinks-heading {
+  font-size: var(--sonagi-font-size-xl);
+  margin-bottom: var(--sonagi-spacing-lg);
+  color: var(--sonagi-color-text-primary);
+}
+
+.backlinks-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: var(--sonagi-spacing-md);
+}
+
+.backlink-card {
+  display: block;
+  padding: var(--sonagi-spacing-md);
+  background: var(--sonagi-color-surface);
+  border: 1px solid var(--sonagi-color-border);
+  border-radius: var(--sonagi-radius-md);
+  text-decoration: none;
+  transition: transform var(--sonagi-transition-fast), box-shadow var(--sonagi-transition-fast);
+}
+
+.backlink-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--sonagi-shadow-md);
+  border-color: var(--sonagi-color-primary);
+}
+
+.backlink-title {
+  display: block;
+  font-weight: 600;
+  color: var(--sonagi-color-primary);
+  margin-bottom: var(--sonagi-spacing-xs);
+}
+
+.backlink-excerpt {
+  font-size: 0.9rem;
+  color: var(--sonagi-color-text-secondary);
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  margin: 0;
 }

@@ -1,5 +1,6 @@
 ---
 import BaseLayout from './Base.astro';
+import { TOC } from '../components/ui';
 
 interface Props {
   title: string;
@@ -7,6 +8,7 @@ interface Props {
   date?: string;
   tags?: string[];
   category?: string;
+  headings?: { depth: number; slug: string; text: string }[];
 }
 
 const { 
@@ -14,7 +16,8 @@ const {
   description,
   date,
   tags = [],
-  category = ''
+  category = '',
+  headings = []
 } = Astro.props;
 
 // 날짜 포맷팅
@@ -31,63 +34,104 @@ const formatDate = (dateString: string) => {
 
 <BaseLayout title={title} description={description}>
   <article class="note">
-    <div class="note-container">
-      <!-- 노트 헤더 -->
-      <header class="note-header">
-        {category && (
-          <div class="note-category">
-            <a href={`/${category}`} class="category-badge">
-              {category}
-            </a>
-          </div>
-        )}
-        
-        <h1 class="note-title">{title}</h1>
-        
-        <div class="note-meta">
-          {date && (
-            <time class="note-date" datetime={date}>
-              📅 {formatDate(date)}
-            </time>
-          )}
-          
-          {tags.length > 0 && (
-            <div class="note-tags">
-              {tags.map(tag => (
-                <span class="tag">#{tag}</span>
-              ))}
+  <article class="note">
+    <div class="note-layout">
+      <div class="note-container">
+        <!-- 노트 헤더 -->
+        <header class="note-header">
+          {category && (
+            <div class="note-category">
+              <a href={`/${category}`} class="category-badge">
+                {category}
+              </a>
             </div>
           )}
+          
+          <h1 class="note-title">{title}</h1>
+          
+          <div class="note-meta">
+            {date && (
+              <time class="note-date" datetime={date}>
+                📅 {formatDate(date)}
+              </time>
+            )}
+            
+            {tags.length > 0 && (
+              <div class="note-tags">
+                {tags.map(tag => (
+                  <span class="tag">#{tag}</span>
+                ))}
+              </div>
+            )}
+          </div>
+        </header>
+        
+        <!-- 노트 본문 -->
+        <div class="note-content">
+          <slot />
         </div>
-      </header>
-      
-      <!-- 노트 본문 -->
-      <div class="note-content">
-        <slot />
+        
+        <!-- 노트 푸터 (추후: 백링크, 관련 노트 등) -->
+        <footer class="note-footer">
+          <div class="note-actions">
+            <a href="/" class="back-link">← 홈으로 돌아가기</a>
+          </div>
+        </footer>
       </div>
       
-      <!-- 노트 푸터 (추후: 백링크, 관련 노트 등) -->
-      <footer class="note-footer">
-        <div class="note-actions">
-          <a href="/" class="back-link">← 홈으로 돌아가기</a>
+      <!-- TOC 사이드바 (데스크탑) -->
+      <aside class="note-sidebar">
+        <div class="sticky-toc">
+          <TOC client:load headings={headings} />
         </div>
-      </footer>
+      </aside>
     </div>
   </article>
 </BaseLayout>
 
 <style>
   .note {
-    max-width: var(--content-width);
+    max-width: var(--max-width);
     margin: 0 auto;
     padding: 0 var(--sonagi-spacing-lg);
   }
   
+  .note-layout {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--sonagi-spacing-xl);
+  }
+  
   .note-container {
-    background: white;
+    background: var(--sonagi-color-background);
+    border: 1px solid var(--sonagi-color-border);
     border-radius: var(--sonagi-radius-xl);
     padding: var(--sonagi-spacing-2xl);
     box-shadow: var(--sonagi-shadow-sm);
+    min-width: 0; /* Grid overflow fix */
+  }
+  
+  .note-sidebar {
+    display: none;
+  }
+  
+  @media (min-width: 1024px) {
+    .note-layout {
+      grid-template-columns: 1fr 240px;
+      gap: var(--sonagi-spacing-2xl);
+      align-items: start;
+    }
+    
+    .note-sidebar {
+      display: block;
+    }
+    
+    .sticky-toc {
+      position: sticky;
+      top: 100px;
+      max-height: calc(100vh - 120px);
+      overflow-y: auto;
+    }
   }
   
   /* Header */

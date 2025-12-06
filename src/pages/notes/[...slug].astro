@@ -1,0 +1,52 @@
+---
+import NoteLayout from '@/layouts/Note.astro';
+
+// 모든 마크다운 파일을 가져와서 경로 생성
+export async function getStaticPaths() {
+  // 모든 마크다운 파일 로드
+  const allNotes = await Astro.glob('../../../content/**/*.md');
+  
+  return allNotes.map((note) => {
+    // content/dev/getting-started.md -> dev/getting-started
+    const slug = note.file
+      .replace(/^.*\/content\//, '')
+      .replace(/\.md$/, '');
+    
+    return {
+      params: { slug },
+      props: { note }
+    };
+  });
+}
+
+import backlinksData from '../../generated/backlinks.json';
+import { BacklinksSection } from '../../components/ui';
+
+const { note } = Astro.props;
+const { Content, frontmatter } = note;
+const headings = note.getHeadings();
+
+const { slug } = Astro.params;
+const currentBacklinks = backlinksData[slug as string] || [];
+
+const { 
+  title = 'Untitled', 
+  date, 
+  tags = [], 
+  category = '',
+  description = '' 
+} = frontmatter;
+---
+
+<NoteLayout 
+  title={title}
+  description={description}
+  date={date}
+  tags={tags}
+  category={category}
+  headings={headings}
+>
+  <Content />
+  
+  <BacklinksSection backlinks={currentBacklinks} client:visible />
+</NoteLayout>

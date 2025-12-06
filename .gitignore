@@ -1,35 +1,18 @@
-# Dependencies
-node_modules/
-.pnpm-store/
-
-# Build outputs
+# Build Output
 dist/
-.astro/
+node_modules/
+
+# Generated
+src/generated/
+public/graph-data.json
 
 # Environment
 .env
 .env.*
-!.env.example
-
-# IDE
-.vscode/
-.idea/
-*.swp
-*.swo
-*~
-.DS_Store
-
-# Logs
-logs
-*.log
-npm-debug.log*
-pnpm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-
-# Cache
-.cache/
-.parcel-cache/
 
 # OS
+.DS_Store
 Thumbs.db
+
+# Generic
+.specify/

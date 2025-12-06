@@ -1,9 +1,9 @@
 ---
-title Progressive Hydration
-date 2021-06-12
-category dev
-tags [react, rendering, hydration, ssr, performance]
-description Delay loading JavaScript for less important parts of the page
+title: Progressive Hydration
+date: 2021-06-12
+category: dev
+tags: [react, rendering, hydration, ssr, performance]
+description: Delay loading JavaScript for less important parts of the page
 ---
 # Progressive Hydration
 

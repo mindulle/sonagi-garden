@@ -1,0 +1,177 @@
+---
+import BaseLayout from '../../layouts/Base.astro';
+import { Card } from '../../components/ui';
+
+export async function getStaticPaths() {
+  const allNotes = await Astro.glob('../../../content/**/*.md');
+  
+  // 모든 태그 수집
+  const tagSet = new Set<string>();
+  allNotes.forEach((note) => {
+    const tags = note.frontmatter?.tags || [];
+    tags.forEach((tag: string) => tagSet.add(tag));
+  });
+
+  // 각 태그별로 페이지 생성
+  return Array.from(tagSet).map((tag) => {
+    const filteredNotes = allNotes.filter((note) => {
+      const tags = note.frontmatter?.tags || [];
+      return tags.includes(tag);
+    });
+
+    return {
+      params: { tag },
+      props: { tag, notes: filteredNotes },
+    };
+  });
+}
+
+const { tag, notes } = Astro.props;
+
+// 날짜순으로 정렬 (최신순)
+const sortedNotes = notes.sort((a: any, b: any) => {
+  const dateA = new Date(a.frontmatter.date || 0);
+  const dateB = new Date(b.frontmatter.date || 0);
+  return dateB.getTime() - dateA.getTime();
+});
+
+// 날짜 포맷팅
+const formatDate = (dateString: string) => {
+  if (!dateString) return '';
+  const date = new Date(dateString);
+  return date.toLocaleDateString('ko-KR', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  });
+};
+---
+
+<BaseLayout title={`#${tag}`} description={`${notes.length}개의 노트`}>
+  <div class="tag-filter-page">
+    <div class="tag-filter-container">
+      <header class="tag-filter-header">
+        <a href="/tags" class="back-link">← 모든 태그</a>
+        <h1>#{tag}</h1>
+        <p class="subtitle">{notes.length}개의 노트</p>
+      </header>
+
+      <div class="notes-list">
+        {sortedNotes.map((note: any) => (
+          <a href={`/notes/${note.frontmatter.category}/${note.file.split('/').pop()?.replace('.md', '')}`} class="note-link">
+            <Card variant="default" client:load>
+              <article class="note-card">
+                <h2 class="note-title">{note.frontmatter.title}</h2>
+                {note.frontmatter.description && (
+                  <p class="note-description">{note.frontmatter.description}</p>
+                )}
+                <div class="note-meta">
+                  {note.frontmatter.date && (
+                    <time class="note-date">{formatDate(note.frontmatter.date)}</time>
+                  )}
+                  {note.frontmatter.category && (
+                    <span class="note-category">{note.frontmatter.category}</span>
+                  )}
+                </div>
+              </article>
+            </Card>
+          </a>
+        ))}
+      </div>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .tag-filter-page {
+    max-width: var(--content-width);
+    margin: 0 auto;
+    padding: 0 var(--sonagi-spacing-lg);
+  }
+
+  .tag-filter-container {
+    padding: var(--sonagi-spacing-2xl) 0;
+  }
+
+  .tag-filter-header {
+    margin-bottom: var(--sonagi-spacing-2xl);
+  }
+
+  .back-link {
+    display: inline-block;
+    color: var(--sonagi-color-text-secondary);
+    text-decoration: none;
+    margin-bottom: var(--sonagi-spacing-md);
+    font-size: var(--sonagi-font-size-sm);
+    transition: color var(--sonagi-transition-fast);
+  }
+
+  .back-link:hover {
+    color: var(--sonagi-color-primary);
+  }
+
+  .tag-filter-header h1 {
+    font-size: var(--sonagi-font-size-3xl);
+    color: var(--sonagi-color-primary);
+    margin-bottom: var(--sonagi-spacing-sm);
+  }
+
+  .subtitle {
+    font-size: var(--sonagi-font-size-md);
+    color: var(--sonagi-color-text-secondary);
+  }
+
+  .notes-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sonagi-spacing-lg);
+  }
+
+  .note-link {
+    text-decoration: none;
+    transition: transform var(--sonagi-transition-fast);
+  }
+
+  .note-link:hover {
+    transform: translateY(-2px);
+  }
+
+  .note-card {
+    padding: var(--sonagi-spacing-lg);
+  }
+
+  .note-title {
+    font-size: var(--sonagi-font-size-xl);
+    font-weight: 600;
+    color: var(--sonagi-color-text-primary);
+    margin-bottom: var(--sonagi-spacing-sm);
+  }
+
+  .note-description {
+    font-size: var(--sonagi-font-size-md);
+    color: var(--sonagi-color-text-secondary);
+    margin-bottom: var(--sonagi-spacing-md);
+    line-height: 1.6;
+  }
+
+  .note-meta {
+    display: flex;
+    gap: var(--sonagi-spacing-md);
+    align-items: center;
+    font-size: var(--sonagi-font-size-sm);
+    color: var(--sonagi-color-text-secondary);
+  }
+
+  .note-date {
+    display: flex;
+    align-items: center;
+  }
+
+  .note-category {
+    padding: var(--sonagi-spacing-xs) var(--sonagi-spacing-sm);
+    background: var(--sonagi-color-surface);
+    border-radius: var(--sonagi-radius-sm);
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+</style>

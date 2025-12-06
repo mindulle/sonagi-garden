@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import { DarkModeToggle, SearchModal } from '../components/ui';
 
 interface Props {
   title: string;
@@ -21,6 +22,17 @@ const {
   <meta name="generator" content={Astro.generator}>
   <title>{title} | Sonagi Garden</title>
   
+  <!-- Theme Initialization (blocking to prevent flash) -->
+  <script is:inline>
+    // 테마 초기화 (FOUC 방지를 위해 가장 먼저 실행)
+    (function() {
+      const savedTheme = localStorage.getItem('sonagi-theme');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const theme = savedTheme || (prefersDark ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', theme);
+    })();
+  </script>
+  
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -36,9 +48,19 @@ const {
         </a>
         
         <div class="nav-links">
+          <a href="/tags" class="nav-link">Tags</a>
           <a href="/dev" class="nav-link">Dev</a>
           <a href="/design" class="nav-link">Design</a>
           <a href="/life" class="nav-link">Life</a>
+          <a href="/graph" class="nav-link">Graph</a>
+          <button 
+            class="search-trigger" 
+            aria-label="Search"
+            onclick="window.dispatchEvent(new CustomEvent('sonagi:open-search'))"
+          >
+            🔍
+          </button>
+          <DarkModeToggle client:load />
         </div>
       </nav>
     </div>
@@ -50,9 +72,11 @@ const {
   
   <footer class="site-footer">
     <div class="container">
-      <p>© 2025 Sonagi Garden. 청량하게 가꾸는 디지털 정원.</p>
+      <p>© 2025 Sonagi Garden. 청량하게 가꾸는 디지털 정원. | <a href="/rss.xml">RSS</a></p>
     </div>
   </footer>
+  
+  <SearchModal client:load />
 </body>
 </html>
 
@@ -64,7 +88,14 @@ const {
     top: 0;
     z-index: 100;
     backdrop-filter: blur(10px);
+  }
+  
+  [data-theme="light"] .site-header {
     background: rgba(255, 255, 255, 0.95);
+  }
+  
+  [data-theme="dark"] .site-header {
+    background: rgba(13, 17, 23, 0.95);
   }
   
   .main-nav {
@@ -137,5 +168,32 @@ const {
     .nav-link {
       padding: var(--sonagi-spacing-xs) var(--sonagi-spacing-sm);
     }
+  }
+  
+  /* Theme Toggle & Search Trigger */
+  :global(.theme-toggle),
+  .search-trigger {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: var(--sonagi-spacing-sm);
+    border-radius: var(--sonagi-radius-md);
+    transition: all var(--sonagi-transition-fast);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    color: var(--sonagi-color-text-primary);
+  }
+  
+  :global(.theme-toggle:hover),
+  .search-trigger:hover {
+    background: var(--sonagi-color-surface);
+    color: var(--sonagi-color-primary);
+  }
+  
+  :global(.theme-icon) {
+    display: block;
+    line-height: 1;
   }
 </style>
