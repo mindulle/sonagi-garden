@@ -29,7 +29,8 @@
     "remark-gfm": "^4.0.0",
     "remark-wiki-link": "^2.0.1",
     "shiki": "^1.27.0",
-    "typescript": "^5.7.3"
+    "typescript": "^5.7.3",
+    "unist-util-visit": "^5.0.0"
   },
   "devDependencies": {
     "@types/react": "^18.3.17",
