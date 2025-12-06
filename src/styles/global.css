@@ -25,6 +25,7 @@ body {
   line-height: var(--sonagi-line-height-base);
   color: var(--sonagi-color-text-primary);
   background: var(--sonagi-color-background);
+  transition: background-color var(--sonagi-transition-base), color var(--sonagi-transition-base);
 }
 
 /* Typography */

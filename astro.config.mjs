@@ -3,9 +3,13 @@ import react from '@astrojs/react';
 
 // Markdown 플러그인들
 import remarkGfm from 'remark-gfm';
-import remarkWikiLink from 'remark-wiki-link';
+import remarkWikilinks, { initNoteCache } from './src/utils/remark-wikilinks.ts';
+import path from 'path';
 import rehypeSlug from 'rehype-slug';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
+
+// 빌드 시점에 노트 정보 캐싱
+initNoteCache(path.resolve('./content'));
 
 // https://astro.build/config
 export default defineConfig({
@@ -21,15 +25,7 @@ export default defineConfig({
     // Markdown 플러그인 설정
     remarkPlugins: [
       remarkGfm,
-      [remarkWikiLink, {
-        // Obsidian 스타일 위키링크 [[note]] 지원
-        aliasDivider: '|',
-        hrefTemplate: (permalink) => {
-          // 노트 이름을 그대로 URL로 변환
-          /// 나중에 실제 노트 경로를 확인하는 로직 추가 필요
-          return `/notes/${permalink}`;
-        }
-      }]
+      remarkWikilinks // 커스텀 위키링크 플러그인 (인자 없음)
     ],
 
     rehypePlugins: [

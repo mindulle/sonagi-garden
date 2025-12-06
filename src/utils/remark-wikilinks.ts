@@ -14,39 +14,56 @@ interface WikiLinkMatch {
 /**
  * 모든 노트의 정보를 캐시
  */
+import { globSync } from 'glob'; // Changed to globSync for synchronous loading in config
+import fs from 'fs';
+import path from 'path';
+import matter from 'gray-matter';
+
+/**
+ * 모든 노트의 정보를 캐시
+ */
 let noteCache: Map<string, { url: string; title: string }> = new Map();
 
 /**
- * 빌드 시점에 노트 캐시를 초기화하는 함수
- * Astro 페이지에서 Astro.glob()로 로드한 노트들을 전달받아 캐시를 생성
+ * 파일 시스템에서 마크다운 파일들을 스캔하여 캐시 초기화
+ * @param contentDir 콘텐츠 디렉토리 절대 경로 (예: src/content)
  */
-export function initNoteCache(notes: any[]) {
+export function initNoteCache(contentDir: string) {
     noteCache.clear();
 
-    for (const note of notes) {
-        if (!note.file) continue;
+    // glob 패턴으로 모든 .md 파일 찾기
+    const files = globSync('**/*.md', { cwd: contentDir, absolute: true });
 
-        // 파일 경로에서 정보 추출
-        const pathParts = note.file.split('/');
-        const filename = pathParts[pathParts.length - 1].replace('.md', '');
+    for (const filePath of files) {
+        // 파일 내용 읽어서 frontmatter 파싱
+        const fileContent = fs.readFileSync(filePath, 'utf-8');
+        const { data } = matter(fileContent);
 
-        // 카테고리 찾기 (content/ 다음 경로)
-        const contentIndex = pathParts.findIndex((p: string) => p === 'content');
-        const category = pathParts[contentIndex + 1] || 'notes';
+        // 상대 경로 계산 (ex: dev/getting-started.md)
+        const relativePath = path.relative(contentDir, filePath);
 
-        // URL 생성
-        const url = `/notes/${category}/${filename}`;
+        // 파일명과 카테고리 추출
+        const filename = path.basename(filePath, '.md');
+        const pathParts = relativePath.split(path.sep);
 
-        // 정규화된 키 (소문자, 하이픈을 공백으로)
+        // 폴더 구조에 따른 URL 생성 (ex: /notes/dev/getting-started)
+        // content/dev/note.md -> /notes/dev/note
+        // 최상위 파일인 경우 -> /notes/note (혹은 분류에 따라 다름)
+        // 여기서는 디렉토리 구조를 그대로 유지
+        const urlPath = pathParts.join('/').replace('.md', '');
+        const url = `/notes/${urlPath}`;
+
+        // 정규화된 키 (소문자, 하이픈/언더바를 공백으로)
         const normalizedKey = filename.toLowerCase().replace(/[-_]/g, ' ');
 
-        // 캐시에 저장 (제목은 frontmatter에서 가져오거나 파일명 사용)
+        // 캐시에 저장
         noteCache.set(normalizedKey, {
             url,
-            title: note.frontmatter?.title || filename.replace(/-/g, ' ')
+            title: data.title || filename.replace(/-/g, ' ')
         });
     }
 
+    console.log(`[remark-wikilinks] Cached ${noteCache.size} notes.`);
     return noteCache;
 }
 
@@ -88,11 +105,7 @@ function findWikiLinks(text: string): WikiLinkMatch[] {
  */
 export default function remarkWikilinks() {
     return (tree: Root) => {
-        // 캐시가 초기화되지 않았으면 경고
-        if (!noteCache || noteCache.size === 0) {
-            console.warn('[remark-wikilinks] Note cache not initialized. Wikilinks will not be resolved.');
-            return;
-        }
+        // 캐시가 비어있어도 실행 (경고 로그는 init에서 처리)
 
         // 모든 텍스트 노드 방문
         visit(tree, 'text', (node: Text, index, parent) => {

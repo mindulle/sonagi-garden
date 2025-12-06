@@ -19,8 +19,9 @@ async function generateGraphData() {
     const nodes = [];
     const edges = [];
     const existingNodes = new Set();
+    const fileMap = {};
 
-    // First pass: Create nodes
+    // First pass: Create nodes and build fileMap
     for (const file of files) {
         const content = fs.readFileSync(file, 'utf-8');
         const { data } = matter(content);
@@ -32,6 +33,9 @@ async function generateGraphData() {
 
         const title = data.title || path.basename(file, '.md');
         const category = slug.split('/')[0]; // dev, design, life
+
+        const filename = path.basename(file, '.md').toLowerCase();
+        fileMap[filename] = slug;
 
         nodes.push({
             id: slug,
@@ -57,22 +61,30 @@ async function generateGraphData() {
 
         while ((match = regex.exec(markdown)) !== null) {
             const targetRaw = match[1].trim();
-            const targetSlug = targetRaw.toLowerCase().replace(/\s+/g, '-');
+            const targetKey = targetRaw.toLowerCase().replace(/\s+/g, '-');
+
+            // Try exact match first, then raw match (via fileMap)
+            let targetSlug = fileMap[targetKey];
+            if (!targetSlug) {
+                targetSlug = fileMap[targetRaw.toLowerCase()];
+            }
 
             // Only add edge if target exists (internal link)
-            // Note: This assumes simple slugification matches. 
-            // In a real app, we might need more robust resolution matching remark-wikilinks.
-            if (existingNodes.has(targetSlug)) {
-                edges.push({
-                    source: sourceSlug,
-                    target: targetSlug
-                });
+            if (targetSlug && existingNodes.has(targetSlug)) {
 
-                // Increment node size (degree centrality)
-                const sourceNode = nodes.find(n => n.id === sourceSlug);
-                const targetNode = nodes.find(n => n.id === targetSlug);
-                if (sourceNode) sourceNode.val += 0.5;
-                if (targetNode) targetNode.val += 0.5;
+                // Avoid self-loops
+                if (sourceSlug !== targetSlug) {
+                    edges.push({
+                        source: sourceSlug,
+                        target: targetSlug
+                    });
+
+                    // Increment node size (degree centrality)
+                    const sourceNode = nodes.find(n => n.id === sourceSlug);
+                    const targetNode = nodes.find(n => n.id === targetSlug);
+                    if (sourceNode) sourceNode.val += 0.5;
+                    if (targetNode) targetNode.val += 0.5;
+                }
             }
         }
     }

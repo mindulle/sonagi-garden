@@ -77,6 +77,28 @@ const {
   </footer>
   
   <SearchModal client:load />
+  
+  <script is:inline>
+    // Pagefind Integration
+    // This script should be loaded after the build to ensure pagefind instance is available
+    window.addEventListener('DOMContentLoaded', async () => {
+      // In development, pagefind might not be available or running
+      // But in production (after build), it is served from /pagefind/pagefind.js
+      try {
+         // 동적으로 스크립트 로드
+         const script = document.createElement('script');
+         script.src = "/pagefind/pagefind.js";
+         script.onload = async () => {
+            if (window.pagefind) {
+                await window.pagefind.init();
+            }
+         };
+         document.body.appendChild(script);
+      } catch (e) {
+        console.log("Pagefind not loaded (expected in dev mode if not built)");
+      }
+    });
+  </script>
 </body>
 </html>
 
