@@ -1,0 +1,43 @@
+
+> sonagi-garden@0.1.0 build /mnt/d/_develop-projects/projects/sonagi-garden
+> pnpm generate:backlinks && pnpm generate:graph && astro build && npx pagefind --site dist
+
+
+> sonagi-garden@0.1.0 generate:backlinks /mnt/d/_develop-projects/projects/sonagi-garden
+> node scripts/generate-backlinks.mjs
+
+Generating backlinks...
+Backlinks generated in src/generated/backlinks.json
+
+> sonagi-garden@0.1.0 generate:graph /mnt/d/_develop-projects/projects/sonagi-garden
+> node scripts/generate-graph-data.mjs
+
+Generating graph data...
+Graph data generated in public/graph-data.json
+[remark-wikilinks] Cached 96 notes.
+15:04:10 [types] Generated 378ms
+15:04:10 [build] output: "static"
+15:04:10 [build] directory: /mnt/d/_develop-projects/projects/sonagi-garden/dist/
+15:04:10 [build] Collecting build info...
+15:04:10 [build] ✓ Completed in 527ms.
+15:04:10 [build] Building static entrypoints...
+15:04:19 [ERROR] [vite] x Build failed in 8.18s
+src/pages/tags/[tag].astro (3:9): "Card" is not exported by "src/components/ui/index.ts", imported by "src/pages/tags/[tag].astro".
+file: /mnt/d/_develop-projects/projects/sonagi-garden/src/pages/tags/[tag].astro:3:9
+
+1: ---
+2: import BaseLayout from '../../layouts/Base.astro';
+3: import { Card } from '../../components/ui';
+            ^
+4: 
+5: export async function getStaticPaths() {
+
+  Location:
+    /mnt/d/_develop-projects/projects/sonagi-garden/src/pages/tags/[tag].astro:3:9
+  Stack trace:
+    at getRollupError (file:///mnt/d/_develop-projects/projects/sonagi-garden/node_modules/.pnpm/rollup@4.52.5/node_modules/rollup/dist/es/shared/parseAst.js:401:41)
+    at Module.error (file:///mnt/d/_develop-projects/projects/sonagi-garden/node_modules/.pnpm/rollup@4.52.5/node_modules/rollup/dist/es/shared/node-entry.js:16939:16)
+    at ModuleScope.findVariable (file:///mnt/d/_develop-projects/projects/sonagi-garden/node_modules/.pnpm/rollup@4.52.5/node_modules/rollup/dist/es/shared/node-entry.js:15061:39)
+    at FunctionBodyScope.findVariable (file:///mnt/d/_develop-projects/projects/sonagi-garden/node_modules/.pnpm/rollup@4.52.5/node_modules/rollup/dist/es/shared/node-entry.js:5642:38)
+    at FunctionBodyScope.findVariable (file:///mnt/d/_develop-projects/projects/sonagi-garden/node_modules/.pnpm/rollup@4.52.5/node_modules/rollup/dist/es/shared/node-entry.js:5642:38)
+ ELIFECYCLE  Command failed with exit code 1.

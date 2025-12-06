@@ -95,10 +95,21 @@ description: 노트 설명
 - [x] 그래프 뷰 (Phase 3에서 앞당김)
 - [x] RSS 피드 (Phase 3에서 앞당김)
 
-### Phase 3: 확장 기능
-- [ ] 댓글 시스템 (Giscus)
-- [ ] SEO 최적화 (Sitemap, Metadata)
+### Phase 3: 확장 기능 (진행 중)
+- [x] 댓글 시스템 (Giscus)
+- [x] SEO 최적화 (Sitemap, Metadata)
 - [ ] 배포 최적화
+
+## 배포 (Deployment)
+
+이 프로젝트는 Vercel 배포에 최적화되어 있습니다.
+
+1. Vercel 대시보드에서 `Importer Git Repository` 선택
+2. `Build Command`: `pnpm build`
+3. `Output Directory`: `dist`
+4. `Install Command`: `pnpm install`
+5. 환경 변수는 별도로 필요하지 않지만, Giscus 설정 시 `Comments.tsx`의 ID 값 확인 필요.
+
 
 ## Sonagi 디자인 시스템 통합
 

@@ -8,18 +8,18 @@ import path from 'path';
 import rehypeSlug from 'rehype-slug';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 
+import sitemap from '@astrojs/sitemap';
+
 // 빌드 시점에 노트 정보 캐싱
 initNoteCache(path.resolve('./content'));
 
 // https://astro.build/config
 export default defineConfig({
   site: 'https://sonagi-garden.vercel.app',
-  integrations: [
-    react({
-      // React 컴포넌트를 부분적으로 하이드레이션
-      include: ['**/components/**/*.tsx', '**/components/**/*.jsx']
-    })
-  ],
+  integrations: [react({
+    // React 컴포넌트를 부분적으로 하이드레이션
+    include: ['**/components/**/*.tsx', '**/components/**/*.jsx']
+  }), sitemap()],
 
   markdown: {
     // Markdown 플러그인 설정

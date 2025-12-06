@@ -20,7 +20,7 @@ export async function getStaticPaths() {
 }
 
 import backlinksData from '../../generated/backlinks.json';
-import { BacklinksSection } from '../../components/ui';
+import { BacklinksSection, Comments } from '../../components/ui';
 
 const { note } = Astro.props;
 const { Content, frontmatter } = note;
@@ -49,4 +49,5 @@ const {
   <Content />
   
   <BacklinksSection backlinks={currentBacklinks} client:visible />
+  <Comments client:visible />
 </NoteLayout>
