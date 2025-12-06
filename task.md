@@ -111,3 +111,20 @@
     - [x] Test Feed Validation <!-- id: 51 -->
     - Status: Implemented in `src/pages/rss.xml.ts` with date filtering and sorting.
 
+- [ ] **010-comments** <!-- id: 52 -->
+    - [ ] Review Specification (Giscus) <!-- id: 53 -->
+    - [ ] Create Comments Component <!-- id: 54 -->
+    - [ ] Integrate into Note Layout <!-- id: 55 -->
+
+- [ ] **011-seo** <!-- id: 56 -->
+    - [ ] Review Specification <!-- id: 57 -->
+    - [ ] Configure Sitemap <!-- id: 58 -->
+    - [ ] Add Robots.txt <!-- id: 59 -->
+    - [ ] Implement Open Graph Tags <!-- id: 60 -->
+
+- [ ] **012-deployment** <!-- id: 61 -->
+    - [ ] Review Specification <!-- id: 62 -->
+    - [ ] Create Vercel Configuration <!-- id: 63 -->
+    - [ ] Optimize Build Assets <!-- id: 64 -->
+    - [ ] Final Production Check <!-- id: 65 -->
+
