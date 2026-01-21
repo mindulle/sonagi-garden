@@ -1,53 +1,208 @@
 ---
-import NoteLayout from '@/layouts/Note.astro';
+import NoteLayout from "@/layouts/Note.astro";
 
 // 모든 마크다운 파일을 가져와서 경로 생성
 export async function getStaticPaths() {
   // 모든 마크다운 파일 로드
-  const allNotes = await Astro.glob('../../../content/**/*.md');
-  
-  return allNotes.map((note) => {
+  const allNotes = await Astro.glob("../../../content/**/*.md");
+
+  // 1. 모든 파일에 대한 경로 생성
+  const filePaths = allNotes.map((note) => {
     // content/dev/getting-started.md -> dev/getting-started
-    const slug = note.file
-      .replace(/^.*\/content\//, '')
-      .replace(/\.md$/, '');
-    
+    // content/dev/index.md           -> dev
+    let slug = note.file
+      .replace(/^.*\/content\//, "")
+      .replace(/\.md$/, "")
+      .replace(/\/index$/, "");
+
+    // Handle root index.md if it exists in content/index.md -> slug: undefined or "" ?
+    // If slug becomes empty string, it might match root /notes/ route.
+    if (slug === "") slug = undefined; // Warning: This might conflict with src/pages/notes/index.astro if it exists.
+    // Assuming this file handles /notes/[...slug], slug cannot be undefined for [...slug] usually,
+    // but in Astro 4, [...slug] can match /notes/ if undefined is passed?
+    // Actually, usually index is handled separately or by [..slug].
+    // Let's assume content/index.md maps to /notes/ base path if needed, but safe to keep standard behavior.
+
     return {
       params: { slug },
-      props: { note }
+      props: { note },
     };
   });
+
+  // 2. 폴더에 대한 경로 생성 (Hybrid Approach)
+  // 폴더 내에 index.md가 없으면 자동으로 리스트 페이지 생성
+  const folders = new Set<string>();
+
+  allNotes.forEach((note) => {
+    const slug = note.file
+      .replace(/^.*\/content\//, "")
+      .replace(/\.md$/, "")
+      .replace(/\/index$/, "");
+
+    // a/b/c -> add a, a/b
+    const parts = slug.split("/");
+    if (parts.length > 1) {
+      // Remove last part (file name) to get folder path
+      // but if it was index.md, parts is ['dev'], folders need to include 'dev'?
+      // Actually, if it was dev/index.md, slug is 'dev'.
+      // We shouldn't add 'dev' as a folder logic if 'dev' is already a file path.
+    }
+
+    // Better logic: extracting directory from file path
+    const relativePath = note.file.replace(/^.*\/content\//, "");
+    const dir = relativePath.split("/").slice(0, -1).join("/");
+
+    if (dir) {
+      // Add all parent directories too (e.g. dev/react -> add dev and dev/react)
+      const dirParts = dir.split("/");
+      let currentPath = "";
+      dirParts.forEach((part) => {
+        currentPath = currentPath ? `${currentPath}/${part}` : part;
+        folders.add(currentPath);
+      });
+    }
+  });
+
+  const folderPaths = [];
+  const validFileSlugs = new Set(filePaths.map((p) => p.params.slug));
+
+  for (const folder of folders) {
+    // 만약 폴더 이름과 동일한 slug를 가진 파일(예: dev/index.md -> dev)이 이미 있다면 스킵
+    if (validFileSlugs.has(folder)) {
+      continue;
+    }
+
+    // 해당 폴더에 속한 노트들 찾기
+    const childNotes = allNotes.filter((note) => {
+      const relativePath = note.file.replace(/^.*\/content\//, "");
+      return relativePath.startsWith(folder + "/");
+    });
+
+    folderPaths.push({
+      params: { slug: folder },
+      props: {
+        category: folder,
+        childNotes,
+      },
+    });
+  }
+
+  return [...filePaths, ...folderPaths];
 }
 
-import backlinksData from '../../generated/backlinks.json';
-import { BacklinksSection, Comments } from '../../components/ui';
+import backlinksData from "../../generated/backlinks.json";
+import { BacklinksSection, Comments } from "../../components/ui";
 
-const { note } = Astro.props;
-const { Content, frontmatter } = note;
-const headings = note.getHeadings();
-
+const { note, category, childNotes } = Astro.props;
 const { slug } = Astro.params;
-const currentBacklinks = backlinksData[slug as string] || [];
 
-const { 
-  title = 'Untitled', 
-  date, 
-  tags = [], 
-  category = '',
-  description = '' 
-} = frontmatter;
+// 1. File Rendering (Normal Note)
+let isNote = false;
+let pageTitle = "";
+let pageDescription = "";
+let pageDate = undefined;
+let pageTags = [];
+let pageCategory = "";
+let pageHeadings = [];
+let Content = null;
+let currentBacklinks = [];
+
+if (note) {
+  isNote = true;
+  const { Content: NoteContent, frontmatter } = note;
+  Content = NoteContent;
+  pageHeadings = note.getHeadings();
+  currentBacklinks = backlinksData[slug as string] || [];
+
+  const {
+    title = "Untitled",
+    date,
+    tags = [],
+    category: featCategory = "",
+    description = "",
+  } = frontmatter;
+
+  pageTitle = title;
+  pageDescription = description;
+  pageDate = date;
+  pageTags = tags;
+  pageCategory = featCategory;
+}
+// 2. Folder Rendering (Auto-generated List)
+else if (category) {
+  isNote = false;
+  pageCategory = category;
+  pageTitle = `Category: ${category.charAt(0).toUpperCase() + category.slice(1)}`;
+  pageDescription = `Notes in ${category}`;
+}
 ---
 
-<NoteLayout 
-  title={title}
-  description={description}
-  date={date}
-  tags={tags}
-  category={category}
-  headings={headings}
+<NoteLayout
+  title={pageTitle}
+  description={pageDescription}
+  date={pageDate}
+  tags={pageTags}
+  category={pageCategory}
+  headings={pageHeadings}
 >
-  <Content />
-  
-  <BacklinksSection backlinks={currentBacklinks} client:visible />
-  <Comments client:visible />
+  {
+    isNote && Content && (
+      <>
+        <Content />
+        <BacklinksSection backlinks={currentBacklinks} client:visible />
+        <Comments client:visible />
+      </>
+    )
+  }
+
+  {
+    !isNote && category && (
+      <div class="category-list">
+        <p>
+          Showing {childNotes.length} notes in <strong>{category}</strong>
+        </p>
+        <ul class="note-list">
+          {childNotes.map((note) => {
+            const noteSlug = note.file
+              .replace(/^.*\/content\//, "")
+              .replace(/\.md$/, "")
+              .replace(/\/index$/, "");
+            const { title: noteTitle = "Untitled" } = note.frontmatter;
+            return (
+              <li>
+                <a href={`/notes/${noteSlug}`}>{noteTitle}</a>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+    )
+  }
 </NoteLayout>
+
+<style>
+  .category-list {
+    padding: var(--sonagi-spacing-md);
+  }
+  .note-list {
+    margin-top: var(--sonagi-spacing-lg);
+    list-style: none;
+    padding: 0;
+  }
+  .note-list li {
+    margin-bottom: var(--sonagi-spacing-sm);
+    padding: var(--sonagi-spacing-sm);
+    border-bottom: 1px solid var(--sonagi-color-border);
+    transition: background var(--sonagi-transition-fast);
+  }
+  .note-list li:hover {
+    background: var(--sonagi-color-surface);
+  }
+  .note-list a {
+    text-decoration: none;
+    font-weight: 500;
+    color: var(--sonagi-color-primary);
+    display: block;
+  }
+</style>
+---
