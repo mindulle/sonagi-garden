@@ -1,0 +1,2 @@
+The ==`use client`== directive marks source files whose components are intended to execute only on the client. Conversely, ==`use server`== marks server-side functions that can be invoked from client-side code.
+<!--SR:!2024-05-21,1,230!2024-05-21,1,230-->

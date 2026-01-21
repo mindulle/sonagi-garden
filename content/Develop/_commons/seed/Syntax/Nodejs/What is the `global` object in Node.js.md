@@ -1,0 +1,1 @@
+The `global` object is a global namespace object that contains all global variables, functions, and objects. It is similar to the `window` object in the browser. It can be accessed from anywhere in the program without importing it.

@@ -16,3 +16,28 @@ Thumbs.db
 
 # Generic
 .specify/
+
+# Editor Config
+.idea/
+.vscode/
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# Obsidian (Keep config, ignore workspace state)
+.obsidian/workspace
+.obsidian/workspace.json
+.obsidian/workspace-mobile.json
+.obsidian/cache
+.obsidian/plugins/recent-files-obsidian/data.json
+
+
+
+
+# Ignore Smart Environment folder
+.smart-env
+# Logs
+build.log
+validation.log
+.obsidian/plugins/

@@ -11,7 +11,9 @@
     "build": "pnpm generate:backlinks && pnpm generate:graph && astro build && npx pagefind --site dist",
     "preview": "astro preview",
     "astro": "astro",
-    "migrate": "node scripts/migrate-notes.js"
+    "migrate": "node scripts/migrate-notes.js",
+    "validate": "node scripts/validate-notes.mjs",
+    "fix-images": "node scripts/fix-broken-images.mjs"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.4",

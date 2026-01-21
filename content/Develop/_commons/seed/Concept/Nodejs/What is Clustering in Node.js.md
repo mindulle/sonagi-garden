@@ -1,0 +1,1 @@
+Clustering is a technique used to distribute the load across multiple processes. It is used to improve the performance and scalability of Node.js applications.

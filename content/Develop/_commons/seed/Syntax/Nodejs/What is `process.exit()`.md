@@ -1,0 +1,1 @@
+`process.exit()` is a method that can be used to exit the current process. It takes an optional exit code as an argument. If no exit code is specified, it defaults to 0.

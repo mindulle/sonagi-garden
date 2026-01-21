@@ -1,0 +1,1 @@
+REPL stands for Read-Eval-Print-Loop. It is an interactive shell that allows you to execute JavaScript code and view the output immediately. It is useful for testing small snippets of code and experimenting with the Node.js API.

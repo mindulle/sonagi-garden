@@ -1,0 +1,1 @@
+`setInterval()` is a global function that helps you execute a function repeatedly at a fixed delay. It returns an interval ID that uniquely identifies the interval, which can be used to cancel the interval using the `clearInterval()` function.

@@ -1,0 +1,1 @@
+Hooks are functions that let you “hook into” React state and lifecycle features from function components. Hooks don't work inside classes — they let you use React without classes. Some common hooks include `useState`, `useEffect`, `useMemo`, `useRef`, `useCallback`, etc.

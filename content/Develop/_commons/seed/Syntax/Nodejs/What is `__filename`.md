@@ -1,0 +1,1 @@
+`__filename` is a global variable that contains the absolute path of the current file.

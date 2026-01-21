@@ -1,0 +1,1 @@
+No, hooks are not supported in Server Components. Hooks are a client-side feature and are not supported in Server Components. However, you can use hooks in client components and import them into Server Components.

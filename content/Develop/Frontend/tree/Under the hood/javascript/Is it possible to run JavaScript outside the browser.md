@@ -1,0 +1,1 @@
+Yes, it is possible to run JavaScript outside the browser. There are several ways to run JavaScript outside the browser. You can use **Node.js**, **Deno**, **Bun**, or any other JavaScript runtime environment.

@@ -1,0 +1,1 @@
+Node.js is a runtime environment for JavaScript. JavaScript is a programming language used to create web applications. Node.js is a runtime environment that can execute JavaScript code outside of a web browser.

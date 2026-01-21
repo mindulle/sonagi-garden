@@ -1,0 +1,1 @@
+`npm` stands for Node Package Manager.

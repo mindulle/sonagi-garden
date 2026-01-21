@@ -1,0 +1,1 @@
+The `renderToString` function in React is part of the `react-dom/server` package and is used to render React components on the server-side to a static HTML string. It is commonly used for server-side rendering (SSR) in React.

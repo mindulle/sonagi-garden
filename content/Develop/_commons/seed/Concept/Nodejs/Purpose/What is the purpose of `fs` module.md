@@ -1,0 +1,1 @@
+The File System (fs) module is used to perform file operations such as reading, writing, and deleting files. All file system operations have synchronous and asynchronous forms.

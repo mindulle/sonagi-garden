@@ -1,0 +1,1 @@
+To enable strict mode in JavaScript, you need to add the following line at the top of the file or function `'use strict';`.

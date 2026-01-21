@@ -1,0 +1,4 @@
+## ==Feed Page==
+
+**==Feed (or news feed) page==** is found on websites that often update content. In other words, it’s a content stream users can scroll through and check what’s been updated on the website. On **==the feed page==**, the content is presented in blocks or elements that are similar and repetitive. For instance, an editorial **==feed==** will be presented by the list of news or articles whereas on the social networking site the **==feed==** will often show the updates from the followed users or pages. Also, the presentation of the **==feed==** can be different from text-only and super minimalist to the one using big complex blocks of content including both text and [media](https://blog.tubikstudio.com/web-design-basic-types-of-images-web-content/) like photos, illustrations, or even video previews.
+

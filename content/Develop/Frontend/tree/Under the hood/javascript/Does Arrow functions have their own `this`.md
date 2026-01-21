@@ -1,0 +1,1 @@
+No, arrow functions do not have their own `this`. Instead, they inherit the `this` of the enclosing lexical scope.

@@ -1,0 +1,1 @@
+Node.js is a server-side runtime for JavaScript, while AJAX is a client-side technique for asynchronous communication with the server.

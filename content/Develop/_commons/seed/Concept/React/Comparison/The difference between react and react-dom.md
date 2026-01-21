@@ -1,0 +1,1 @@
+React is a library for building user interfaces. The package `react` contains only the renderer-agnostic code i.e. the core React library, algorithm for computing changes in the UI and other helpers. . The package `react-dom` contains the code specific to the DOM rendering of React components.

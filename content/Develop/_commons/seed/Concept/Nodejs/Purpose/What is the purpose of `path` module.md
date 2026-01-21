@@ -1,0 +1,1 @@
+The Path module is used to perform operations on file and directory paths. It provides methods for resolving and normalizing paths, joining paths, and extracting file and directory names.

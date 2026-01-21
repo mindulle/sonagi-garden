@@ -1,0 +1,1 @@
+You can use `window.innerWidth` and `window.innerHeight` to get the viewport dimensions.

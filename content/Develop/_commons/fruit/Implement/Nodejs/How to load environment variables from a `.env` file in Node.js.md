@@ -1,0 +1,1 @@
+The `dotenv` package is used to load environment variables from a `.env` file into `process.env`. It is used to store sensitive information such as API keys, database credentials, etc. in a `.env` file instead of hardcoding them in the source code.

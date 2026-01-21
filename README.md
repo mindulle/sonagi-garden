@@ -80,13 +80,15 @@ description: 노트 설명
 ## 개발 로드맵
 
 ### Phase 1: MVP ✅
+
 - [x] Astro 프로젝트 세팅
 - [x] 기본 레이아웃
 - [x] 홈페이지
 - [x] 마크다운 렌더링
-- [ ] 노트 페이지 렌더링
+- [x] 노트 페이지 렌더링
 
 ### Phase 2: Core Features ✅
+
 - [x] 위키링크 처리
 - [x] 검색 기능
 - [x] 백링크
@@ -96,9 +98,10 @@ description: 노트 설명
 - [x] RSS 피드 (Phase 3에서 앞당김)
 
 ### Phase 3: 확장 기능 (진행 중)
+
 - [x] 댓글 시스템 (Giscus)
 - [x] SEO 최적화 (Sitemap, Metadata)
-- [ ] 배포 최적화
+- [x] 배포 최적화
 
 ## 배포 (Deployment)
 
@@ -109,7 +112,6 @@ description: 노트 설명
 3. `Output Directory`: `dist`
 4. `Install Command`: `pnpm install`
 5. 환경 변수는 별도로 필요하지 않지만, Giscus 설정 시 `Comments.tsx`의 ID 값 확인 필요.
-
 
 ## Sonagi 디자인 시스템 통합
 

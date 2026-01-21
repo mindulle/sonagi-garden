@@ -1,0 +1,2 @@
+==Props== are used to pass data from parent to child. They are like function arguments. They are immutable. ==State== is managed within the component and is mutable.
+<!--SR:!2024-05-21,1,230!2024-05-21,1,230-->

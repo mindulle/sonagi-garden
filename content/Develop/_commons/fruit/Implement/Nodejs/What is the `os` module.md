@@ -1,0 +1,1 @@
+The `os` module provides methods for interacting with the operating system. It can be used to get information about the operating system, such as the hostname, platform, architecture, etc.

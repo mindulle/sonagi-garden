@@ -1,0 +1,1 @@
+`npm` is a package manager for Node.js. It is used to install, update, and remove packages from the Node.js ecosystem. It is also used to manage dependencies for Node.js projects.

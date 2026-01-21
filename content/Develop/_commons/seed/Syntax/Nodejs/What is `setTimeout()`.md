@@ -1,0 +1,1 @@
+`setTimeout()` is a global function that helps you execute a function after a specified delay. It returns a timeout ID that uniquely identifies the timeout, which can be used to cancel the timeout using the `clearTimeout()` function.

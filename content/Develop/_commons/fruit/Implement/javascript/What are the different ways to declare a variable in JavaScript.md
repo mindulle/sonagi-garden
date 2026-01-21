@@ -1,0 +1,1 @@
+There are three ways to declare a variable in JavaScript `var`, `let`, and `const`.

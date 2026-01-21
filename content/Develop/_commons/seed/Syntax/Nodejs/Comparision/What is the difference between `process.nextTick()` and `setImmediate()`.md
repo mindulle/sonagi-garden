@@ -1,0 +1,1 @@
+`process.nextTick()` and `setImmediate()` are both used to schedule a callback function to be executed in the next iteration of the event loop. The difference is that `process.nextTick()` executes the callback at the end of the current iteration of the event loop, while `setImmediate()` executes the callback at the beginning of the next iteration of the event loop.

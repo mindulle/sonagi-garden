@@ -1,0 +1,1 @@
+React fiber is the reconciliation engine that replaced the core algorithm in React v16. It is a rewrite of the core algorithm, responsible for scheduling what gets rendered on screen. It is a set of algorithms for efficiently updating the UI. Here is a [bit-outdated but quite good article about React Fiber](https://github.com/acdlite/react-fiber-architecture).

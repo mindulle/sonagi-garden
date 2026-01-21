@@ -1,0 +1,13 @@
+{
+  "userIgnoreFilters": [
+    "node_modules",
+    ".git",
+    "dist",
+    ".astro",
+    ".vercel",
+    ".gemini",
+    "dist/",
+    "src/",
+    "node_modules/"
+  ]
+}

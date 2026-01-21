@@ -1,0 +1,1 @@
+You can use `dangerouslySetInnerHTML` prop to render HTML in React. It is used to set HTML directly from React. You should be careful while using this property as it can cause XSS attacks.

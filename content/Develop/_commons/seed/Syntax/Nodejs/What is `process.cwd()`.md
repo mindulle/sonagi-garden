@@ -1,0 +1,1 @@
+`process.cwd()` returns the current working directory of the Node.js process. It is similar to `pwd` in Unix.

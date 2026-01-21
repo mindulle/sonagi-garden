@@ -1,0 +1,1 @@
+Environment variables can be accessed using the `process.env` object. It is an object that contains all the environment variables defined in the current process.
